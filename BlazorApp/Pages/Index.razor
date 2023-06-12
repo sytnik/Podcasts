@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using BlazorApp.Data
+@using Microsoft.EntityFrameworkCore
 
 <PageTitle>Index</PageTitle>
 
@@ -9,3 +10,13 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?"/>
 <img src=@Version.Get(HttpContextAccessor,"img/user.png")>
+
+@code
+{
+    Person _firstPerson, _lastPerson;
+    protected override async Task OnInitializedAsync()
+    {
+        _firstPerson = await Context.Persons.FirstOrDefaultAsync();
+        _lastPerson = await Context.Persons.OrderByDescending(p=>p.Id).FirstOrDefaultAsync();
+    }
+}
