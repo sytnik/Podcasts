@@ -7,10 +7,10 @@
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Microsoft.JSInterop
 @using BlazorApp
+@using BlazorApp.DAO
 @using BlazorApp.Shared
 @using Microsoft.AspNetCore.Mvc.ViewFeatures
 @using Microsoft.EntityFrameworkCore
 @inject IFileVersionProvider Version
 @inject IHttpContextAccessor HttpContextAccessor
-@inject SomeDataContextOnConfiguring Context
-@* @inject IDbContextFactory<SomeDataContextOnConfiguring> Factory *@
+@inject SampleContext Context

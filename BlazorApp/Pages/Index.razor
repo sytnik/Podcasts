@@ -1,6 +1,6 @@
 ﻿@page "/"
 @using BlazorApp.Data
-@using Microsoft.EntityFrameworkCore
+@using BlazorApp.Logic
 
 <PageTitle>Index</PageTitle>
 
@@ -13,10 +13,13 @@ Welcome to your new app.
 
 @code
 {
-    Person _firstPerson, _lastPerson;
+    List<Person> _persons;
     protected override async Task OnInitializedAsync()
     {
-        _firstPerson = await Context.Persons.FirstOrDefaultAsync();
-        _lastPerson = await Context.Persons.OrderByDescending(p=>p.Id).FirstOrDefaultAsync();
+        Context.Populate();
+        _persons = await Context.Persons
+            .Include(person => person.Orders).ThenInclude(order => order.Products)
+            .Include(person => person.Orders).ThenInclude(order => order.OrderDetails)
+            .ToListAsync();
     }
 }

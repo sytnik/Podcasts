@@ -1,16 +1,15 @@
-using BlazorApp;
-using BlazorApp.Data;
+using BlazorApp.DAO;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddHttpContextAccessor();
-// var connString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContextFactory<SomeDataContextOnConfiguring>();
+builder.Services.AddDbContextFactory<SampleContext>
+(optionsBuilder => optionsBuilder
+    .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped(provider =>
-    provider.GetService<IDbContextFactory<SomeDataContextOnConfiguring>>().CreateDbContext());
+    provider.GetService<IDbContextFactory<SampleContext>>()!.CreateDbContext());
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
