@@ -17,9 +17,9 @@ Welcome to your new app.
     protected override async Task OnInitializedAsync()
     {
         Context.Populate();
-        _persons = await Context.Persons
-            .Include(person => person.Orders).ThenInclude(order => order.Products)
-            .Include(person => person.Orders).ThenInclude(order => order.OrderDetails)
-            .ToListAsync();
+        // _persons = await Context.Persons
+        //     .Include(person => person.Orders).ThenInclude(order => order.Products)
+        //     .Include(person => person.Orders).ThenInclude(order => order.OrderDetails)
+        //     .ToListAsync();
     }
 }

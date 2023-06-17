@@ -1,0 +1,36 @@
+﻿@page "/threebuttons"
+
+<h3>Button Example</h3>
+
+<p>@_message</p>
+<p>Button Click Count: @_clickCount</p>
+
+<button class="btn btn-primary" @onclick="SyncTask">Sync Task</button>
+<button class="btn btn-primary" @onclick="AsyncTask">Async Task</button>
+<button class="btn btn-primary" @onclick="IncrementCount">Click Me!</button>
+
+@code {
+    private string _message = "";
+    private int _clickCount = 0;
+
+    // Simulate synchronous/blocking task
+    private void SyncTask()
+    {
+        _message = "Starting Sync Task...";
+        System.Threading.Thread.Sleep(5000);  // simulate a long-running task
+        _message = "Sync Task Finished";
+    }
+
+    // Simulate asynchronous/long-running task
+    private async Task AsyncTask()
+    {
+        _message = "Starting Async Task...";
+        await Task.Delay(5000);  // simulate a long-running task
+        _message = "Async Task Finished";
+    }
+
+    private void IncrementCount()
+    {
+        _clickCount++;
+    }
+}
