@@ -1,0 +1,12 @@
+global using Xunit;
+global using System.Net;
+global using System.Net.Http.Headers;
+global using System.Security.Claims;
+global using System.Text.Encodings.Web;
+global using Microsoft.AspNetCore.Authentication;
+global using Microsoft.AspNetCore.Mvc.Testing;
+global using Microsoft.AspNetCore.TestHost;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.Options;
+global using Microsoft.VisualStudio.TestPlatform.TestHost;
