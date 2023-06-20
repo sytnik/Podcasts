@@ -8,7 +8,7 @@ namespace MockShop.Server.Logic;
 
 public static class DefaultData
 {
-    public static void Populate(this SampleContext context)
+    public static async Task Populate(this SampleContext context)
     {
         var personFaker = new Faker<Person>()
             .RuleFor(person => person.FirstName, faker => faker.Name.FirstName())
@@ -40,8 +40,8 @@ public static class DefaultData
         orderProducts = orderProducts.Except(orderProductsDb).ToList();
         orderProducts = orderProducts
             .DistinctBy(orderProduct => new {orderProduct.OrderId, orderProduct.ProductId}).ToList();
-        context.AddRange(orderProducts);
-        context.SaveChanges();
+        await context.AddRangeAsync(orderProducts);
+        await context.SaveChangesAsync();
     }
 
     private static void SetupEntities<T>(this DbContext context, Faker<T> faker,
@@ -51,6 +51,6 @@ public static class DefaultData
         entities = faker.Generate(count);
         var id = context.Set<T>().Any() ? context.Set<T>().Max(entityWithId => entityWithId.Id) : 0;
         entities.ForEach(entityWithId => entityWithId.Id = ++id);
-        if (addToContext) context.Set<T>().AddRange(entities);
+        if (addToContext) context.Set<T>().AddRangeAsync(entities);
     }
 }

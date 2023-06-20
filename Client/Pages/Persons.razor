@@ -1,0 +1,11 @@
+﻿@page "/persons"
+<h3>Persons</h3>
+
+@code {
+
+    List<PersonDTO> _persons;
+    protected override async Task OnParametersSetAsync()
+    {
+        _persons = await Http.GetFromJsonAsync<List<PersonDTO>>("persons");
+    }
+}
