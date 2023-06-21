@@ -1,11 +1,19 @@
 ﻿@page "/persons"
 <h3>Persons</h3>
 
+<Virtualize Items="_persons">
+    <p>@context.Name @context.Address</p>
+</Virtualize>
+
 @code {
 
-    List<PersonDTO> _persons;
+    List<PersonDTO> _persons = new(); // empty
+    List<PersonMapperDTO> _personMapper; // null
+
     protected override async Task OnParametersSetAsync()
     {
         _persons = await Http.GetFromJsonAsync<List<PersonDTO>>("persons");
+        _personMapper = await Http.GetFromJsonAsync<List<PersonMapperDTO>>("personsmapper");
     }
+
 }

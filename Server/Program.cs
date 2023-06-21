@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using MockShop.Server.DAO;
 using MockShop.Server.Logic;
@@ -7,6 +8,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<SampleContext>(optionsBuilder =>
     optionsBuilder.UseInMemoryDatabase("MockShop"));
+var config = new MapperConfiguration(expression => expression.AddProfile<MappingProfile>());
+var mapper = config.CreateMapper();
+// required
+mapper.ConfigurationProvider.AssertConfigurationIsValid();
+builder.Services.AddSingleton(mapper);
 builder.Services.AddScoped<ShopRepository>();
 var application = builder.Build();
 if (application.Environment.IsDevelopment())
@@ -30,4 +36,6 @@ await application.Services.CreateAsyncScope()
     .ServiceProvider.GetService<SampleContext>().Populate();
 application.MapGet("persons", async (ShopRepository repository) =>
     await repository.Persons());
+application.MapGet("personsmapper", async (ShopRepository repository) =>
+    await repository.PersonsMapper());
 application.Run();
