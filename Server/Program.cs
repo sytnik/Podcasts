@@ -14,6 +14,7 @@ var mapper = config.CreateMapper();
 mapper.ConfigurationProvider.AssertConfigurationIsValid();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddScoped<ShopRepository>();
+builder.Services.AddEndpointsApiExplorer().AddSwaggerGen();
 var application = builder.Build();
 if (application.Environment.IsDevelopment())
 {
@@ -31,11 +32,22 @@ application.UseStaticFiles();
 application.UseRouting();
 application.MapRazorPages();
 application.MapControllers();
+application.UseSwagger().UseSwaggerUI();
 application.MapFallbackToFile("index.html");
 await application.Services.CreateAsyncScope()
     .ServiceProvider.GetService<SampleContext>().Populate();
 application.MapGet("persons", async (ShopRepository repository) =>
     await repository.Persons());
+application.MapGet("personsext", async (ShopRepository repository) =>
+{
+    var persons = await repository.PersonsExt();
+    return persons;
+});
+
 application.MapGet("personsmapper", async (ShopRepository repository) =>
-    await repository.PersonsMapper());
+    {
+        var persons = await repository.PersonsMapper();
+        return persons;
+    }
+);
 application.Run();

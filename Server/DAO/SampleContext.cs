@@ -31,7 +31,7 @@ public sealed class SampleContext : DbContext
                     .HasForeignKey(orderProduct => orderProduct.ProductId),
                 typeBuilder => typeBuilder
                     .HasOne(orderProduct => orderProduct.Order)
-                    .WithMany()
+                    .WithMany(order => order.OrderProducts)
                     .HasForeignKey(orderProduct => orderProduct.OrderId),
                 typeBuilder => typeBuilder
                     .HasKey(orderProduct =>

@@ -9,11 +9,13 @@
 
     List<PersonDTO> _persons = new(); // empty
     List<PersonMapperDTO> _personMapper; // null
+    PersonExtDTO[] _personExt;
 
     protected override async Task OnParametersSetAsync()
     {
         _persons = await Http.GetFromJsonAsync<List<PersonDTO>>("persons");
         _personMapper = await Http.GetFromJsonAsync<List<PersonMapperDTO>>("personsmapper");
+        _personExt = await Http.GetFromJsonAsync<PersonExtDTO[]>("personsext");
     }
 
 }

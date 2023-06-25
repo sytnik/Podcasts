@@ -9,5 +9,6 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateProjection<Person, PersonMapperDTO>();
+        CreateProjection<Order, OrderMapperDTO>();
     }
 }

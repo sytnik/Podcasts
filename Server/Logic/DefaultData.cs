@@ -31,6 +31,8 @@ public static class DefaultData
             .RuleFor(details => details.ShippingAddress, faker => faker.Address.FullAddress());
         context.SetupEntities(orderDetailsFaker, out _);
         var orderProductsFaker = new Faker<OrderProduct>()
+            .RuleFor(orderProduct => orderProduct.Quantity,
+                faker => faker.PickRandom(1, 50))
             .RuleFor(orderProduct => orderProduct.OrderId,
                 faker => faker.PickRandom(orders.Select(order => order.Id)))
             .RuleFor(orderProduct => orderProduct.ProductId,

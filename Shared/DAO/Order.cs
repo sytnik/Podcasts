@@ -11,4 +11,5 @@ public sealed record Order : EntityWithId
     public OrderDetails OrderDetails { get; set; }
 
     public List<Product> Products { get; set; }
+    public List<OrderProduct> OrderProducts { get; set; }
 }
