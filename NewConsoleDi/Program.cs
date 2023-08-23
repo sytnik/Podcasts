@@ -12,7 +12,7 @@ Console.ReadKey();
 static ServiceProvider ConfigureServices()
 {
     var configuration = new ConfigurationBuilder()
-        .SetBasePath(Directory.GetCurrentDirectory())
+        .SetBasePath(basePath: Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
         .Build();
     var connectionString = configuration.GetConnectionString("DefaultConnection");
