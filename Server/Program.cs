@@ -39,15 +39,7 @@ await application.Services.CreateAsyncScope()
 application.MapGet("persons", async (ShopRepository repository) =>
     await repository.Persons());
 application.MapGet("personsext", async (ShopRepository repository) =>
-{
-    var persons = await repository.PersonsExt();
-    return persons;
-});
-
+     await repository.PersonsExt());
 application.MapGet("personsmapper", async (ShopRepository repository) =>
-    {
-        var persons = await repository.PersonsMapper();
-        return persons;
-    }
-);
+    await repository.PersonsMapper());
 application.Run();

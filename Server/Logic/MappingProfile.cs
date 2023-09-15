@@ -10,5 +10,10 @@ public class MappingProfile : Profile
     {
         CreateProjection<Person, PersonMapperDTO>();
         CreateProjection<Order, OrderMapperDTO>();
+        CreateProjection<OrderProduct, ProductMapperDTO>()
+            // for records
+            .ForCtorParam(nameof(ProductMapperDTO.Total),
+                param =>
+                    param.MapFrom(orderProduct => orderProduct.Product.Price * orderProduct.Quantity));
     }
 }

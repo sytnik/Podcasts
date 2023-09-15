@@ -2,8 +2,8 @@
 
 public record PersonMapperDTO(int Id, string FirstName, string LastName, int Age,
     string Gender, string Address, List<OrderMapperDTO> Orders);
-public record OrderMapperDTO(string Info, string OrderDetailsShippingAddress
-    // , ProductMapperDTO[] Products
-    );
+public record OrderMapperDTO(string Info, string OrderDetailsShippingAddress,
+    List<ProductMapperDTO> OrderProducts);
 
-public record ProductMapperDTO(string Name, decimal Price, int Quantity, decimal Total);
+// from OrderProduct
+public record ProductMapperDTO(string ProductName, decimal ProductPrice, int Quantity, decimal Total);
