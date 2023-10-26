@@ -1,0 +1,15 @@
+﻿global using AutoMapper.QueryableExtensions;
+global using AutoMapper;
+global using Bogus;
+global using EFCore.BulkExtensions;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.Extensions.Logging;
+global using NewConsoleDi.Dbo;
+global using NewConsoleDi.Dto;
+global using NewConsoleDi.Logic;
+global using System.ComponentModel.DataAnnotations.Schema;
+global using System.ComponentModel.DataAnnotations;
+global using static NewConsoleDi.Logic.Util;

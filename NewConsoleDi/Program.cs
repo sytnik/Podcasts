@@ -1,25 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using NewConsoleDi;
+﻿var applicationBuilder = Host.CreateApplicationBuilder();
+applicationBuilder.Logging.SetMinimumLevel(LogLevel.Information);
+var mapperConfiguration = new MapperConfiguration(expression => expression.AddProfile<MappingProfile>());
+var instance = mapperConfiguration.CreateMapper();
+instance.ConfigurationProvider.AssertConfigurationIsValid();
+applicationBuilder.Services.AddSingleton(instance);
+applicationBuilder.Services.AddDbContext<ShopContext>(builder => builder.UseSqlServer(
+        applicationBuilder.Configuration.GetConnectionString("AppDb"),
+        contextOptionsBuilder => contextOptionsBuilder
+            .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
+    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+var host = applicationBuilder.Build();
+var mapper = host.Services.GetService<IMapper>();
+await using var shopContext = host.Services.GetService<ShopContext>();
 
-var provider = ConfigureServices();
-await using var context = provider.GetRequiredService<SomeDataContext>();
-var array = await GetUserNames(context);
-foreach (var name in array) Console.WriteLine(name);
+// await MockTestData(shopContext);
+
+// var customersWithOrdersAndProductsIncluded = await GetCustomersWithOrdersAndProductsIncluded(shopContext);
+// var dtoFromCustomers = GetDtoFromCustomers(customersWithOrdersAndProductsIncluded);
+// var mapDtoFromCustomers = mapper.MapDtoFromCustomers(customersWithOrdersAndProductsIncluded);
+
+// var projectDtoWithRelated = await ProjectDtoWithRelated(shopContext);
+
+var projectDtoWithRelatedAutoMapper = await mapper.ProjectDtoWithRelatedAutoMapper(shopContext);
+
 Console.ReadKey();
-
-static ServiceProvider ConfigureServices()
-{
-    var configuration = new ConfigurationBuilder()
-        .SetBasePath(basePath: Directory.GetCurrentDirectory())
-        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-        .Build();
-    var connectionString = configuration.GetConnectionString("DefaultConnection");
-    var collection = new ServiceCollection();
-    collection.AddDbContext<SomeDataContext>(builder => builder.UseSqlServer(connectionString));
-    return collection.BuildServiceProvider();
-}
-
-Task<string[]> GetUserNames(SomeDataContext dataContext) =>
-    dataContext.Persons.Select(person => $"{person.FirstName} {person.LastName}").ToArrayAsync();
+applicationBuilder.Build().Run();
