@@ -19,9 +19,9 @@ await using var shopContext = host.Services.GetService<ShopContext>();
 // var dtoFromCustomers = GetDtoFromCustomers(customersWithOrdersAndProductsIncluded);
 // var mapDtoFromCustomers = mapper.MapDtoFromCustomers(customersWithOrdersAndProductsIncluded);
 
-// var projectDtoWithRelated = await ProjectDtoWithRelated(shopContext);
+var projectDtoWithRelated = await ProjectDtoWithRelated(shopContext);
 
-var projectDtoWithRelatedAutoMapper = await mapper.ProjectDtoWithRelatedAutoMapper(shopContext);
+// var projectDtoWithRelatedAutoMapper = await mapper.ProjectDtoWithRelatedAutoMapper(shopContext);
 
 Console.ReadKey();
 applicationBuilder.Build().Run();
